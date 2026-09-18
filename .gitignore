@@ -1,0 +1,19 @@
+.DS_Store
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+*.backup-*.ipynb
+*.zip
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# LaTeX build products
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
