@@ -23,12 +23,10 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.45em}
 
-% Replace these two fields before submission.
-\newcommand{\studentname}{Student Name}
-\newcommand{\notebookurl}{https://github.com/beusy/applied-machine-learning-in-physics/blob/main/Homework\%201/PHYS\_2550\_Homework1.ipynb}
+\newcommand{\studentname}{Don van Beusichem}
+\newcommand{\notebookurl}{https://github.com}
 
-\title{\vspace{-1.6em}\textbf{PHYS 2550 Homework 1}\\
-\large House Prices with Linear Regression from Scratch}
+\title{\vspace{-1.6em}\textbf{PHYS 2550 Homework 1}}
 \author{\studentname}
 \date{September 19, 2026}
 
@@ -36,12 +34,12 @@
 \maketitle
 \vspace{-1.7em}
 \begin{center}
-\textbf{Reproducible notebook:} \href{\notebookurl}{\texttt{notebook link}}
+ \href{https://github.com/beusy/applied-machine-learning-in-physics}{\texttt{GitHub}}
 \end{center}
 
 \section{Data and exploratory analysis}
 
-I used the UCI Real Estate Valuation dataset, which contains 414 property
+I used the given data which was a UCI Real Estate Valuation dataset, and contains 414 property
 transactions from Sindian District, New Taipei City, Taiwan \cite{uci}. I converted
 the supplied XLSX file to CSV in Python: \texttt{pandas.read\_excel()} loaded the
 spreadsheet and \texttt{DataFrame.to\_csv()} saved it without an index column. The
@@ -50,11 +48,11 @@ CSV contains eight numeric columns and no missing values.
 \begin{table}[H]
 \centering
 \caption{Variables, units, and observed ranges. The row number is an identifier, not
-a predictor.}
+a feature.}
 \small
 \begin{tabular}{@{}p{0.29\linewidth}p{0.31\linewidth}p{0.24\linewidth}@{}}
 \toprule
-Variable & Meaning and unit & Observed range \\
+Variable & Meaning and unit & Range \\
 \midrule
 No & Row identifier; unitless & 1 to 414 \\
 Transaction date & Decimal year & 2012.667 to 2013.583 \\
@@ -72,8 +70,8 @@ The target distribution in Fig.~\ref{fig:eda} is right-skewed. Most prices are
 between about 20 and 60, while one observation near 118 is far above the rest. House
 age forms several clusters. MRT distance is also strongly right-skewed: most houses
 are relatively close to a station, but a few are 4--6.5 km away. The scales are
-notably different---house age reaches about 44, whereas MRT distance reaches about
-6488---which becomes important for gradient descent.
+notably different, house age reaches about 44, whereas MRT distance reaches about
+6488, which becomes important for our gradient descent in the future parts.
 
 \begin{figure}[H]
 \centering
@@ -150,7 +148,7 @@ so stacking all partial derivatives gives
 Using the raw features with the same learning rate caused immediate divergence
 (Fig.~\ref{fig:scaling}). MRT distances of several thousand create much larger
 gradient terms than house ages of a few tens. The updates therefore overshoot the
-minimum, and each subsequent update grows still larger.
+minimum, and each subsequent update grows larger.
 
 I standardized each non-constant feature using
 \begin{equation}
@@ -176,7 +174,7 @@ convergence with the same learning rate.}
 \label{fig:scaling}
 \end{figure}
 
-\section{Model comparison and lessons}
+\section{Model comparison}
 
 Adding MRT distance reduced MSE from 176.50 to 93.98, a 46.8\% reduction. The
 multi-feature predictions cover a wider range and generally lie closer to the
@@ -207,13 +205,12 @@ relationship with MRT distance.}
 \label{fig:relationships}
 \end{figure}
 
-In a more careful version, I would investigate unusual observations, add location
-and nearby-convenience-store information, and test nonlinear terms. I would also
+In a more careful version, I would investigate unusual observations, add more features, and test nonlinear terms. I would also
 reserve held-out data for evaluation, since the losses reported here measure fit to
-the same observations used for training and do not establish performance on unseen
+the same observations used for training and do not establish performance on new unseen
 houses.
 
-\section{Bonus: closed-form solution}
+\section{Bonus}
 
 Setting the gradient equal to zero gives the normal equation
 \begin{equation}
@@ -229,8 +226,11 @@ $1.78\times10^{-12}$, and the loss difference was $1.42\times10^{-14}$.
 I defined ``close enough'' as every weight being within 0.001 of its closed-form
 value. With normalized features, this discrepancy has a negligible effect on a
 typical prediction relative to the model's residual errors. Gradient descent first
-met this criterion after 5,268 epochs. The agreement verifies that the implemented
+met this criterion after 5,268 epochs. The agreement confirms that the implemented
 gradient converges to the least-squares solution.
+
+\section{AI use}
+I used ChatGPT to help me with some of the coding commands. In particular, to refresh my memory on \texttt{pandas} and \texttt{matplotlib}. I also used it to do a final organisation of my notebook and the overleaf document.
 
 \begin{thebibliography}{1}
 \bibitem{uci}
