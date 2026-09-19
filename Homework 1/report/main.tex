@@ -39,10 +39,10 @@
 
 \section{Data and exploratory analysis}
 
-I used the given data which was a UCI Real Estate Valuation dataset, and contains 414 property
+The given data is a UCI Real Estate Valuation, and contains 414 property
 transactions from Sindian District, New Taipei City, Taiwan \cite{uci}. I converted
-the supplied XLSX file to CSV in Python: \texttt{pandas.read\_excel()} loaded the
-spreadsheet and \texttt{DataFrame.to\_csv()} saved it without an index column. The
+the supplied XLSX file to CSV directly in the Python notebook. \texttt{pandas.read\_excel()} loaded the
+spreadsheet and \texttt{DataFrame.to\_csv()} saved it. The
 CSV contains eight numeric columns and no missing values.
 
 \begin{table}[H]
@@ -66,10 +66,10 @@ Price per unit area & 10,000 New Taiwan dollars per ping & 7.6 to 117.5 \\
 \end{tabular}
 \end{table}
 
-The target distribution in Fig.~\ref{fig:eda} is right-skewed. Most prices are
-between about 20 and 60, while one observation near 118 is far above the rest. House
+The target distribution in Fig.~\ref{fig:eda} is slightly right-skewed. Most prices are
+between about 20 and 60, however there is one observation near 118 which is rather far from the rest. House
 age forms several clusters. MRT distance is also strongly right-skewed: most houses
-are relatively close to a station, but a few are 4--6.5 km away. The scales are
+are relatively close to a station, but there a few are 4--6.5 km away. The scales are also
 notably different, house age reaches about 44, whereas MRT distance reaches about
 6488, which becomes important for our gradient descent in the future parts.
 
@@ -113,7 +113,7 @@ w_0=42.4343,\qquad w_1=-0.2515,\qquad \mathrm{MSE}=176.5005.
 \end{equation}
 Figure~\ref{fig:one} confirms convergence but also shows weak predictive performance.
 Predictions occupy a narrow range of roughly 32--42 even though true prices range
-from 7.6 to 117.5. Thus house age alone is not a strong predictor: inexpensive
+from 7.6 to 117.5. Clearly, the house age alone is not a strong predictor: inexpensive
 houses tend to be overpredicted and expensive houses underpredicted.
 
 \begin{figure}[H]
@@ -195,7 +195,7 @@ distance carries substantially more information: prices generally decline as
 distance increases. Feature scale was the main optimization limitation on the raw
 data. After normalization, the learning rate was stable and the loss plateaued well
 before 20,000 epochs, so the epoch count was not limiting. The extreme target near
-117.5 and the restriction to a linear relationship remain important limitations.
+117.5 and the restriction to a linear relationship remain clear limitations.
 
 \begin{figure}[H]
 \centering
