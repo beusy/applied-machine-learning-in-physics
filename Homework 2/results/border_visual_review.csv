@@ -1,0 +1,51 @@
+image_id,flagged,status,note
+5310,True,uncertain,Faint edge structure may be target outskirts
+14404,True,clear,Compact object at bottom frame
+18590,True,uncertain,Top structure not clearly separated
+3789,True,clear,Compact object at right frame
+17833,True,no clear neighbour,No separate source visibly overlapping the frame
+15258,True,no clear neighbour,No separate source visibly overlapping the frame
+15490,True,no clear neighbour,No separate source visibly overlapping the frame
+12528,True,clear,Separate blue objects at top frame
+12851,True,no clear neighbour,No separate source visibly overlapping the frame
+19511,True,clear,Red object at bottom-right frame
+11884,True,clear,Separate object at left frame; extended neighbour near bottom
+888,True,uncertain,Faint lower-left feature; uncertain source
+14389,True,clear,Compact object at right frame
+19107,True,no clear neighbour,No separate source visibly overlapping the frame
+15628,True,no clear neighbour,No separate source visibly overlapping the frame
+2730,True,no clear neighbour,No separate source visibly overlapping the frame
+11770,True,no clear neighbour,No separate source visibly overlapping the frame
+2638,True,clear,Bright separate object at top frame
+7646,True,clear,Separate extended object at bottom frame
+14130,True,uncertain,Faint lower-right feature
+3825,True,clear,Compact object at bottom frame
+12039,True,no clear neighbour,No separate source visibly overlapping the frame
+4363,True,clear,Separate blue object at bottom frame
+17589,True,uncertain,Clipped red left-edge feature; uncertain source
+16085,True,clear,Bright object at left frame
+19264,False,clear,Separate left object overlaps frame
+18539,False,no clear neighbour,No separate source visibly overlapping the frame
+14475,False,no clear neighbour,No separate source visibly overlapping the frame
+12189,False,no clear neighbour,No separate source visibly overlapping the frame
+19826,False,no clear neighbour,No separate source visibly overlapping the frame
+15739,False,no clear neighbour,No separate source visibly overlapping the frame
+11303,False,no clear neighbour,No separate source visibly overlapping the frame
+2472,False,no clear neighbour,No separate source visibly overlapping the frame
+20719,False,no clear neighbour,No separate source visibly overlapping the frame
+17594,False,no clear neighbour,No separate source visibly overlapping the frame
+19220,False,clear,Small separate object at right frame
+2087,False,no clear neighbour,No separate source visibly overlapping the frame
+5174,False,no clear neighbour,No separate source visibly overlapping the frame
+11936,False,no clear neighbour,No separate source visibly overlapping the frame
+12951,False,no clear neighbour,No separate source visibly overlapping the frame
+10653,False,no clear neighbour,No separate source visibly overlapping the frame
+4887,False,no clear neighbour,No separate source visibly overlapping the frame
+12828,False,no clear neighbour,No separate source visibly overlapping the frame
+484,False,no clear neighbour,No separate source visibly overlapping the frame
+19142,False,no clear neighbour,No separate source visibly overlapping the frame
+11420,False,no clear neighbour,No separate source visibly overlapping the frame
+21093,False,no clear neighbour,No separate source visibly overlapping the frame
+1596,False,no clear neighbour,No separate source visibly overlapping the frame
+18254,False,no clear neighbour,No separate source visibly overlapping the frame
+12461,False,no clear neighbour,No separate source visibly overlapping the frame

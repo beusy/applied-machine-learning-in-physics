@@ -227,7 +227,7 @@ I kept all ten classes to preserve the supplied reference models. Class 5 has on
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=335pt,keepaspectratio]{figures/class_examples.png}
+\includegraphics[width=0.90\linewidth,height=285pt,keepaspectratio]{figures/class_examples.png}
 \caption{Three training examples per class. The grid uses only training images; class labels and pixel coordinates identify the panels.}
 \label{fig:hw2-1}
 \end{figure}
@@ -259,7 +259,9 @@ I found median standard deviations of 5.99, 5.21 and 4.51 intensity units in g, 
 \label{fig:hw2-3}
 \end{figure}
 
-I summed background-subtracted intensity inside radius 8 pixels (197 pixels) and divided by \ensuremath{\sigma}\textsubscript{sky}\ensuremath{\surd}N. In r, the lowest median is class 6 (363.5), while the highest is class 7 (532.0). Lower aperture SNR need not mean lower total luminosity: a fixed aperture also responds to morphology, angular size and concentration. Zero MAD values use a floor of 1/\ensuremath{\surd}12 intensity units; their fractions are 0.01\%, 0.02\%, 0.03\%. This avoids division by zero but does not restore lost noise information.
+I summed the sky-subtracted intensity inside radius 8 pixels (197 pixels) and divided by $\sigma_{\rm sky}\sqrt{N}$. In $r$, median SNR ranges from 363.5 for class 6 to 532.0 for class 7. To check faintness separately, I also compared aperture intensity: class 6 has median 12,348 and interquartile range 10,556--14,706, while class 2 has median 24,048 and range 20,610--27,054. Class 6 has the lowest median aperture intensity in both $g$ and $r$, so its central regions are systematically fainter in these stored images. SNR alone would not show this: class 7 has the highest $r$ SNR, but class 2 has the highest median $r$ intensity. These are apparent, uncalibrated intensities; they do not measure total luminosity or separate distance from morphology.
+
+Zero MAD values use a floor of $1/\sqrt{12}$ intensity units. They affect only 0.01\%, 0.02\% and 0.03\% of the training images in $g,r,i$, respectively.
 
 
 \subsubsection*{(c) Contamination and digitisation.}
@@ -268,17 +270,21 @@ I summed background-subtracted intensity inside radius 8 pixels (197 pixels) and
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.94\linewidth,height=170pt,keepaspectratio]{figures/contamination.png}
-\caption{A candidate bright border source and an image with saturated pixels. The outlines identify the tested regions.}
+\caption{A visible neighbour touching the top border (left): yellow marks the frame and cyan marks the connected pixels that trigger the test. Cyan also marks saturated spatial pixels in the right panel.}
 \label{fig:hw2-4}
 \end{figure}
 
-I flagged a possible border source when at least three connected r-band pixels exceeded the median by five robust standard deviations. This flags 61.54\% of training images, but some may contain galaxy outskirts or artefacts rather than neighbouring stars. I would need to inspect them before interpreting this as a neighbour count. Saturation affects 0.0006\% of all training pixel-band values, and 2.41\% of images have at least one value of 255. Contamination mixes light from different objects; saturation loses the differences between values above the stored maximum. Standardisation does not undo either effect.
+My initial rule flags three connected $r$-band border pixels above the median plus $5\sigma_{\rm sky}$. It flags 61.54\% of training images, including galaxy outskirts. I therefore checked a random sample of 25 flagged and 25 unflagged images (seed 2554), recording a neighbour as clear only when a separate object visibly overlaps the frame. I found 11 clear and 5 uncertain cases among the flagged images, and 2 clear cases among the unflagged images. The notebook records every image ID, decision and sample image.
+
+Weighting by the two groups' sizes gives $0.6154(11/25)+0.3846(2/25)=30.2\%$ with clear neighbours. Including the uncertain cases gives 42.5\%. These are exploratory visual estimates: a stratified bootstrap gives an approximate 95\% interval of 17.8--43.1\% for the clear-only estimate, conditional on the visual decisions. It does not account for misclassification. Changing the threshold from $3\sigma$ to $5\sigma$ to $7\sigma$ changes the candidate rate from 91.6\% to 61.5\% to 47.8\%, which shows why I should not equate the threshold count with contamination.
+
+Saturation affects 0.0018\% of spatial pixels (at least one band at 255), or 0.0006\% of pixel-band values; 2.41\% of images contain at least one saturated value. A neighbour mixes its light with the target's, while clipping erases differences above 255. Standardisation cannot recover either source's original intensity.
 
 \subsubsection*{(d) Label noise.}
 
 I expect confusion between completely round and intermediate smooth galaxies (1 and 2), between adjacent spiral-tightness classes (7, 8 and 9), and between the edge-on bulge classes (4, 5 and 6). The distinctions can become ambiguous when the relevant structure is faint or unresolved. The labels were filtered using volunteer agreement, but agreement is not a guarantee of a correct physical label \cite{ref1}. Label uncertainty limits reliable generalisation to the recorded labels; it does not provide a numerical accuracy ceiling without a model of the errors or repeated independent labels.
 
-The images therefore have several sources of uncertainty: sky noise, possible neighbours, clipping and ambiguous labels. I can subtract a background offset and crop away some contamination, but I cannot recover clipped values or resolve an uncertain label through normalisation. The border-source fraction also depends strongly on my threshold, so I would not treat it as a confirmed contamination rate.
+The data contain sky fluctuations, neighbouring objects, clipped values and uncertain labels. Background subtraction removes an offset and the crop excludes some neighbours. Neither operation restores clipped intensities or resolves ambiguous labels.
 
 
 \subsection{Preprocessing pipeline}
@@ -321,7 +327,7 @@ i & 26.2158 & 31.6007 & -1.72e-08 & 1.000000 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=200pt,keepaspectratio]{figures/preprocessing.png}
+\includegraphics[width=0.85\linewidth,height=180pt,keepaspectratio]{figures/preprocessing.png}
 \caption{Raw colour images and their processed r-band crops. The processed panels share a fixed colour scale in training standard deviations.}
 \label{fig:hw2-6}
 \end{figure}
@@ -375,12 +381,12 @@ I report the mean and sample standard deviation across the three seeds. The best
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=205pt,keepaspectratio]{figures/training_curves.png}
+\includegraphics[width=0.94\linewidth,height=180pt,keepaspectratio]{figures/training_curves.png}
 \caption{Training and validation weighted cross-entropy for every baseline seed. Solid and dashed lines share a colour within each seed.}
 \label{fig:hw2-7}
 \end{figure}
 
-The CNN reached $75.91\pm1.21\%$ test accuracy, compared with $68.64\pm2.54\%$ for FCNN-matched and $70.76\pm0.68\%$ for FCNN-large. Its balanced accuracy was also higher: $59.47\pm0.11\%$, compared with $49.16\pm2.09\%$ and $52.99\pm1.94\%$. However, balanced accuracy is well below ordinary accuracy for all three models. The high overall scores therefore hide poorer performance on some of the less common classes.
+The CNN leads on both metrics in Table 6. However, balanced accuracy is much lower than ordinary accuracy for every model, showing that the common classes hide poorer performance on the rare ones.
 
 
 \begin{table}[H]\centering
@@ -397,13 +403,13 @@ CNN & 1.00 \ensuremath{\pm} 0.05 & 23.3 \ensuremath{\pm} 3.1 & 3/3 & 10.3 \ensur
 \end{tabular}
 \end{table}
 
-{\footnotesize *Target summaries include only runs that reached the target. A single successful run has no between-seed standard deviation. These conditional times should not be interpreted as the expected time for an arbitrary seed. Individual histories and censored runs are included in the notebook results.\par}
+{\footnotesize *Only successful runs enter the target-time summaries; one success has no between-seed SD. These are not expected times for an arbitrary seed.\par}
 
-I measured a CNN/FCNN-matched epoch-time ratio of 1.90, much smaller than the forward-MAC ratio of about 38.4. The GPU can perform operations in parallel, and the timings also include memory movement and validation. MAC counts therefore do not translate directly into seconds. This comparison describes the T4 runtime I used; I would need new measurements for another device.
+The measured CNN/FCNN-matched epoch-time ratio is 1.90, far below the MAC ratio of 38.4. GPU parallelism, memory movement and validation all affect seconds per epoch. CNN epochs range from 0.95 to 3.16 seconds (median 0.96); I kept the slow epochs in the averages. These are measurements of this T4 run, not general hardware benchmarks.
 
-{\footnotesize Individual CNN epochs range from 0.95 to 3.16 seconds (median 0.96). I retained the slow epochs in the reported means and time-to-target values. The same device was used throughout, but these wall-clock measurements include runtime variability and are not isolated hardware benchmarks.\par}
 
-For the validation-selected representative seeds, FCNN-matched selects epoch 11 (validation loss 1.035), then finishes at loss 1.105; FCNN-large selects epoch 6 (validation loss 1.040), then finishes at loss 1.065; CNN selects epoch 15 (validation loss 0.814), then finishes at loss 0.822. Continued training beyond the selected epoch does not improve the selected validation objective, even when the training loss falls. I use the restored checkpoints for every subsequent comparison.
+
+The validation-selected seeds restore epochs 11, 6 and 15 for matched FCNN, large FCNN and CNN, respectively. Their loss curves show why continuing to lower training loss does not necessarily improve validation loss.
 
 
 \subsubsection*{Which classes are confused?}
@@ -411,12 +417,19 @@ For the validation-selected representative seeds, FCNN-matched selects epoch 11 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=430pt,keepaspectratio]{figures/confusion_matrices.png}
-\caption{Confusion matrices for the lowest-validation-loss seed of each architecture. Colour is the fraction within each true class; numbers are image counts.}
+\includegraphics[width=0.49\linewidth]{figures/confusion_FCNN-matched.png}\hfill
+\includegraphics[width=0.49\linewidth]{figures/confusion_FCNN-large.png}
+\caption{Confusion matrices for the validation-selected FCNN seeds. Colour is the fraction within each true class; numbers are image counts.}
 \label{fig:hw2-8}
 \end{figure}
+\begin{figure}[H]
+\ContinuedFloat
+\centering
+\includegraphics[width=0.49\linewidth]{figures/confusion_CNN.png}
+\caption{Continued: the validation-selected CNN seed, with the same colour scale and class labels.}
+\end{figure}
 
-The largest individual mistakes were $0\to2$ (97 images) and $2\to0$ (87) for FCNN-matched; $0\to2$ (121) and $0\to1$ (96) for FCNN-large; and $0\to2$ (85) and $0\to1$ (75) for the CNN. Since the classes have different sizes, I also look at the row-normalised colours rather than comparing counts alone.
+The largest individual mistakes involve class 0 and the smooth classes: matched FCNN makes 97 errors from $0\to2$, large FCNN makes 121, and CNN makes 85. The row-normalised colours show the error fractions, avoiding a comparison based only on the different class sizes.
 
 The CNN confuses smooth classes 1 and 2 in 99 cases and the spiral classes 7--9 with one another in 70 cases. These are the neighbouring-category confusions anticipated in Section 2.2. Class 0 also lacks visible spiral structure, so confusion with a smooth class can reflect an unresolved distinction between a face-on disk and a smooth object.
 
@@ -428,7 +441,7 @@ For the representative CNN, class 5 has 0 correct predictions out of 2 test exam
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=205pt,keepaspectratio]{figures/roc.png}
+\includegraphics[width=0.94\linewidth,height=180pt,keepaspectratio]{figures/roc.png}
 \caption{One-vs-rest ROC curves for a common smooth class (1) and a spiral class (7), using validation-selected seeds.}
 \label{fig:hw2-9}
 \end{figure}
@@ -445,7 +458,7 @@ I used classes 1 and 7 for the ROC curves. These vary the threshold on one class
 \label{fig:hw2-10}
 \end{figure}
 
-At an eight-pixel displacement, FCNN-matched: 68.64\% to 20.76\% (47.88 percentage points lost); FCNN-large: 70.76\% to 20.22\% (50.54 percentage points lost); CNN: 75.91\% to 31.53\% (44.38 percentage points lost). Each image receives one fixed random cardinal direction, reused across displacements, models and seeds. The offsets have exactly the requested integer-pixel length. Sky estimates still use the original 69 \ensuremath{\times} 69 border, and the training normalisation is unchanged.
+At eight pixels, accuracies fall to 20.76\%, 20.22\% and 31.53\% for matched FCNN, large FCNN and CNN. Each image gets one random cardinal direction, reused across displacements, models and seeds. Sky estimates still use the original border and the training normalisation stays fixed.
 
 Shifting the crop moves the galaxy within the input, but also changes which outskirts and background pixels remain visible. I therefore interpret this as a practical test of displaced crops. Pooling and shared filters may help with position changes, but the dense head still depends on position, and no model can recover light that has left the crop.
 
@@ -457,18 +470,20 @@ At $d=8$, the CNN retains higher accuracy and loses fewer points than either FCN
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\linewidth,height=220pt,keepaspectratio]{figures/scrambled_example.png}
+\includegraphics[width=0.82\linewidth,height=165pt,keepaspectratio]{figures/scrambled_example.png}
 \caption{One shared permutation reorders 2,304 spatial positions, keeping the three bands together at each position.}
 \label{fig:hw2-11}
 \end{figure}
 
 
 \begin{table}[H]\centering
-\caption{Original and scrambled test performance for seed 11.}
+\caption{Seed-11 test performance before and after scrambling. All entries are percentages.}
 \small
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{\dimexpr 0.218936\linewidth-10.509pt\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.195266\linewidth-9.373pt\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.195266\linewidth-9.373pt\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.195266\linewidth-9.373pt\relax}>{\raggedright\arraybackslash}p{\dimexpr 0.195266\linewidth-9.373pt\relax}@{}}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-Model, seed 11 & Original accuracy \% & Scrambled accuracy \% & Original balanced \% & Scrambled balanced \% \\
+& \multicolumn{2}{c}{Accuracy} & \multicolumn{2}{c}{Balanced accuracy} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-5}
+Model & Original & Scrambled & Original & Scrambled \\
 \midrule
 FCNN-matched & 70.84 & 63.28 & 50.40 & 52.35 \\
 CNN & 76.04 & 73.75 & 59.56 & 54.14 \\
@@ -476,11 +491,11 @@ CNN & 76.04 & 73.75 & 59.56 & 54.14 \\
 \end{tabular}
 \end{table}
 
-I retrained both models from scratch using the same fixed permutation in training, validation and test. I compare each with its original seed-11 run. Only one scrambled seed was trained per model, so this experiment does not tell me how variable the scrambling effect is across seeds. Rearranging the FCNN's inputs leaves its representational capacity unchanged, but retraining need not find equivalent weights.
+I retrained both models with one shared permutation of the spatial positions, keeping the three bands together. For a separate check, I permuted the original FCNN's first-layer weights to match its scrambled inputs. On 128 training images, the logits agree within $10^{-4}$ and every predicted class stays the same. This verifies the equivalence in T5 without retraining. The retrained model starts from a different effective arrangement of weights, so it can follow a different optimisation path.
 
-I expected scrambling to hurt the CNN more, but that is not what I found for this seed. CNN accuracy fell by 2.29 points, compared with 7.56 for FCNN-matched. Balanced accuracy changed differently: it fell by 5.43 points for the CNN and increased by 1.95 for the FCNN. I would repeat the experiment with more seeds before drawing a firm conclusion.
+My prediction was not supported by this run: CNN accuracy falls by 2.29 points and matched-FCNN accuracy by 7.56. Balanced accuracy falls by 5.43 points for CNN but rises by 1.95 for FCNN. One scrambled seed is not enough to establish a typical difference; repeating seeds would be the next check.
 
-The scrambled CNN still performs better than the matched FCNN. All the colour and intensity values remain present, and the CNN retains a dense head containing 85.9\% of its parameters. These may help explain its remaining accuracy, although I have not checked which features it actually uses.
+The scrambled CNN retains the colour and intensity values and a large dense head. These could help it perform well without the original local patterns, but I have not identified which features it uses.
 
 
 \section*{B2. Robustness to noise.}
@@ -510,9 +525,9 @@ CNN & 75.91 \ensuremath{\pm} 1.21 & 60.26 \ensuremath{\pm} 2.99 & 15.65 \\
 \end{tabular}
 \end{table}
 
-At $k=4$, the CNN loses 15.65 accuracy points, compared with 0.46 for FCNN-matched and 0.30 for FCNN-large. The larger FCNN now has the highest accuracy. The CNN's advantage on the original images therefore did not extend to added noise. Max pooling can retain positive fluctuations, as in T7, but this test does not separate pooling from the filters and dense head.
+At $k=4$, FCNN-large has the highest accuracy. The CNN's advantage on the original images therefore does not extend to this added noise. Max pooling can select positive fluctuations, as in T7, but changing pooling while holding the rest of the model fixed would be needed to test whether it causes this loss.
 
-This is a controlled noise test, rather than a full survey model: resizing can correlate pixels, clipping changes the perturbations near 0 and 255, and faint structure becomes harder to see. A learned convolution is also not necessarily an averaging filter. I changed only the test images, keeping the trained models fixed.
+The added Gaussian noise is a controlled perturbation. Real resized images can have correlated noise, and clipping changes the perturbation near 0 and 255. I kept the trained models fixed throughout.
 
 \clearpage\section{Discussion}
 
@@ -535,18 +550,18 @@ CNN & 75.91 \ensuremath{\pm} 1.21 & 59.47 \ensuremath{\pm} 0.11 & 171,754 & 6,45
 
 {\footnotesize *Mean \ensuremath{\pm} sample SD across seeds where available. Target-time summaries are conditional on reaching the fixed target; reach counts are given in Section 3.1. MACs refer to one forward pass.\par}
 
-The CNN gave me the highest mean accuracy and balanced accuracy. FCNN-large reached the common target in every seed, taking 6.3 seconds on average compared with 10.7 for the CNN. FCNN-matched had the shortest epochs but reached the target in only one of three seeds. The CNN was therefore the most accurate model, while FCNN-large was faster to this particular target on the T4.
+The CNN has the highest accuracy and balanced accuracy. FCNN-large reaches the target in all three seeds in less time; matched FCNN reaches it only once. For this target and T4 runtime, FCNN-large is faster despite being less accurate on the test set.
 
-\textbf{(b)} Nearby pixels describe structures such as bulges and arms, so I expected the CNN's local filters to help. However, scrambling lowered CNN accuracy by 2.29 points and matched-FCNN accuracy by 7.56 points for seed 11. This did not support my prediction of a larger CNN penalty. Its balanced accuracy fell by 5.43 points, so the effect also depends on how I weight the classes. Stacked convolutions combine information over larger receptive fields, but I did not inspect the filters and cannot claim to have identified the learned features.
+\textbf{(b)} The radial profile has a bright centre and weaker outskirts, so local filters could detect small features before later layers combine them into larger structures. The CNN's better baseline accuracy is consistent with that idea, but it does not isolate the benefit of hierarchy. Scrambling tests locality: its 2.29-point CNN loss, smaller than the FCNN's 7.56-point loss, does not support my prediction for this seed.
 
-The shift experiment partly supported my expectation: the CNN retained 31.5\% accuracy at eight pixels, compared with 20.8\% and 20.2\% for the FCNNs, but its two-pixel drop was larger. Added noise gave the opposite ranking. At $k=4$, the CNN lost 15.65 points while both FCNNs lost less than half a point. The advantage of the CNN therefore depends on how the images change. The sky measurements and aperture SNR also show why architecture alone cannot explain every error.
+Translation tolerance is also limited: the CNN retains more accuracy at eight pixels but loses more at two pixels. Added noise reverses the baseline ranking, with a 15.65-point CNN loss at $k=4$. Local connections, pooling and shared weights are useful assumptions, but these tests show that they do not guarantee robustness.
 
 \textbf{(c)} With only the five magnitudes $u,g,r,i,z$, I would start with an FCNN. There is no two-dimensional image grid for a 2D CNN. The bands have a wavelength order, but they are distinct broad measurements, so moving the same 1D filter between them needs a physical justification.
 
-\textbf{(d)} I would first inspect ambiguous training labels and obtain more examples of the rare classes. Class 5 has only two test galaxies, and several neighbouring categories remain difficult to distinguish. Noise, finite resolution and clipping also limit what the models can see. I would test changes to preprocessing on validation data before adding model complexity, keeping the test set out of those decisions.
+\textbf{(d)} I would first improve training-data coverage: class 5 has only 12 training examples. I would also inspect ambiguous labels, without assuming that confusion proves a label is wrong. The sky measurements, neighbours and clipping show other limits on visible information. I would compare data, preprocessing and architecture changes on validation data; these experiments do not establish which change would gain most accuracy.
 
 
-\clearpage\section*{AI use}
+\section*{AI use}
 I used ChatGPT to help me with PyTorch. This is my first time using this library, so I used AI to explain its functions and how to use them. I also used it to do a final organisation of my notebook and the Overleaf document.
 
 \begin{thebibliography}{1}

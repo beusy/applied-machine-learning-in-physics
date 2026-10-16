@@ -1,0 +1,12 @@
+{
+  "sample_per_group": 25,
+  "seed": 2554,
+  "clear_fraction": 0.30153846153846153,
+  "clear_or_uncertain_fraction": 0.4246153846153847,
+  "clear_bootstrap_interval": [
+    0.17846153846153848,
+    0.4307692307692308
+  ],
+  "saturated_spatial_fraction": 1.757563919438614e-05,
+  "method": "Stratified RGB visual review; subjective, no catalogue cross-match"
+}

@@ -27,3 +27,13 @@ mount. New results use a unique gpu_runs timestamp. Measurements, figures and we
 export section was removed for presentation; download files from Drive and
 download the executed notebook separately.
 The report is not automatically rewritten for later experiments.
+
+Saved-result review
+Review mode uses the original split and preprocessing constants and checks
+prediction indices, labels and scores. New review outputs go into a separate
+review_outputs/ timestamped folder. The published notebook was re-executed
+in this mode after the analysis corrections; the eleven models were not
+retrained. Requirements for the tested CPU environment are supplied separately.
+Fresh GPU runs capture package versions in addition to hardware information.
+The original completion record documents the original run; the notebook
+prints completion when all required evaluations finish.
