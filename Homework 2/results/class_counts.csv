@@ -1,0 +1,11 @@
+class,morphology,all,train,validation,test
+0,"Face-on, no spiral",3461,2423,519,519
+1,"Smooth, round",6997,4898,1049,1050
+2,"Smooth, intermediate",6292,4404,944,944
+3,"Smooth, cigar",349,244,52,53
+4,"Edge-on, rounded bulge",1534,1074,230,230
+5,"Edge-on, boxy bulge",17,12,3,2
+6,"Edge-on, no bulge",589,412,89,88
+7,Tight spiral,1121,785,168,168
+8,Medium spiral,906,634,136,136
+9,Loose spiral,519,363,78,78

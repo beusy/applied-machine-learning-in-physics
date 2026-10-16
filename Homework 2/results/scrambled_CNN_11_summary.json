@@ -1,0 +1,13 @@
+{
+  "model": "CNN",
+  "seed": 11,
+  "tag": "scrambled",
+  "parameters": 171754,
+  "macs": 6451840,
+  "best_epoch": 19,
+  "epochs_run": 24,
+  "best_val_loss": 0.9103770997600567,
+  "best_val_accuracy": 0.7567319461444308,
+  "mean_epoch_seconds": 0.9997106060833119,
+  "total_seconds": 23.993054545999485
+}

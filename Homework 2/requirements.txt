@@ -1,0 +1,10 @@
+# For Jupyter review or a new CUDA environment. In Colab retain its supplied
+# CUDA-compatible PyTorch build. Measured versions are in results/hardware.json.
+numpy>=1.26,<3
+scipy>=1.13
+pandas>=2.2
+scikit-learn>=1.5
+matplotlib>=3.9
+h5py>=3.11
+torch>=2.2
+nbformat>=5.10

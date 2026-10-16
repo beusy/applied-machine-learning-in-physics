@@ -17,3 +17,12 @@ venv/
 *.synctex.gz
 *.toc
 
+
+# Local Homework 2 data, backups and working notes
+Homework 2/Galaxy10.h5
+Homework 2/backups/
+Homework 2/LECTURE_REVIEW.txt
+Homework 2/RESOURCE_MAP.txt
+Homework 2/VERIFICATION.txt
+Homework 2/hw-set-2.pdf
+Homework 2/report/figures/background.png

@@ -9,3 +9,8 @@ Coursework, homework, reports, and supporting datasets for PHYS 2550.
   - Dataset files used in the notebook
   - Report pdf, source and figures in `report/`
 
+
+- `Homework 2/`
+  - Executed Jupyter notebook; Galaxy10 download instructions
+  - Report PDF, LaTeX source and figures in `report/`
+  - Saved GPU results and model weights

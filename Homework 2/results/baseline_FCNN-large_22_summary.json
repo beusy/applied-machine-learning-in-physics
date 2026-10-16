@@ -1,0 +1,13 @@
+{
+  "model": "FCNN-large",
+  "seed": 22,
+  "tag": "baseline",
+  "parameters": 1803914,
+  "macs": 1803520,
+  "best_epoch": 8,
+  "epochs_run": 13,
+  "best_val_loss": 1.0658557491035119,
+  "best_val_accuracy": 0.7135862913096696,
+  "mean_epoch_seconds": 0.5540672968461597,
+  "total_seconds": 7.202874859000076
+}

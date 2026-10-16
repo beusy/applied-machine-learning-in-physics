@@ -1,0 +1,29 @@
+GPU RUN — COMPLETED
+
+Hardware: Tesla T4, CUDA, PyTorch 2.11.0+cu130, NumPy 2.1.3.
+Nine baseline runs (three architectures, seeds 11/22/33), two scrambled runs
+(seed 11), shifted-crop evaluation and bonus B2 noise evaluation completed.
+The report and notebook now use these results.
+
+Colab: https://colab.research.google.com/drive/1IhZVrHby1eqb0qL0XkNx7c4TMkqqj1jG
+Drive run: MyDrive/PHYS2550/Homework 2/gpu_runs/20261016T015510176455Z
+The timestamp is UTC; execution occurred on 15 October in New York.
+Completion record: results/GPU_RUN_COMPLETE.json.
+
+RUN_MODE='auto': fresh GPU experiment if CUDA is available, otherwise local
+saved-result review. In Colab, auto without CUDA stops rather than training
+on CPU. RUN_MODE='gpu' explicitly requires CUDA. RUN_MODE='review' reads the
+saved results in the notebook folder. Set HW2_BASE_DIR to change that folder.
+For reviewing the completed run in Colab, use RUN_MODE='review' and point
+HW2_BASE_DIR to the Drive run path above (with the dataset available there).
+
+Fixes applied during execution
+The Zenodo SSL download failed; a locally verified dataset was uploaded and
+checksum-checked before use. The noise-preprocessing tensor is explicitly
+float32 to remain compatible with NumPy 2 and the model weights.
+
+For a fresh run select a GPU runtime, run all cells and authorize the Drive
+mount. New results use a unique gpu_runs timestamp. Measurements, figures and weights are saved during the run. The notebook
+export section was removed for presentation; download files from Drive and
+download the executed notebook separately.
+The report is not automatically rewritten for later experiments.

@@ -1,0 +1,13 @@
+{
+  "model": "CNN",
+  "seed": 22,
+  "tag": "baseline",
+  "parameters": 171754,
+  "macs": 6451840,
+  "best_epoch": 15,
+  "epochs_run": 20,
+  "best_val_loss": 0.8137955041955179,
+  "best_val_accuracy": 0.7692778457772338,
+  "mean_epoch_seconds": 0.9629751222000038,
+  "total_seconds": 19.259502444000077
+}
